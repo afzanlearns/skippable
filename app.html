@@ -2144,6 +2144,7 @@
       const [showCalculator, setShowCalculator] = useState(false);
       const [toast, setToast] = useState(null);
       const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+      const [isInitialLoadDone, setIsInitialLoadDone] = useState(false);
 
       useEffect(() => {
         // Scroll Locking Logic
@@ -2165,13 +2166,14 @@
         if (params.get('action') === 'calculator') {
           setShowCalculator(true);
         }
+        setIsInitialLoadDone(true);
       }, []);
 
       useEffect(() => {
-        if (subjects.length > 0) {
+        if (isInitialLoadDone) {
           storage.set('subjects', subjects);
         }
-      }, [subjects]);
+      }, [subjects, isInitialLoadDone]);
 
       const showToast = (message, type = 'success') => {
         setToast({ message, type });
