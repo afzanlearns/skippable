@@ -1882,7 +1882,9 @@
       const handleSubmit = (e) => {
         e.preventDefault();
         if (formData.name.trim()) {
-          onSave(formData);
+          // Ensure threshold is valid, default to 75 if empty
+          const finalThreshold = formData.threshold === '' ? 75 : formData.threshold;
+          onSave({ ...formData, threshold: finalThreshold });
         }
       };
 
@@ -1916,7 +1918,7 @@
                     type="number"
                     className="form-input"
                     value={formData.threshold}
-                    onChange={(e) => setFormData({ ...formData, threshold: parseInt(e.target.value) || 75 })}
+                    onChange={(e) => setFormData({ ...formData, threshold: e.target.value === '' ? '' : parseInt(e.target.value) })}
                     min="0"
                     max="100"
                   />
